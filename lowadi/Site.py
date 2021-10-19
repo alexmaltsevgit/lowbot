@@ -1,4 +1,6 @@
+import pickle
 from os import getenv
+from pathlib import Path
 
 from lowadi.selectors import selectors
 from browser.WrappedChrome import WrappedChrome
@@ -12,6 +14,8 @@ class Site:
         self.__username = username
         self.__password = password
 
+        self.__cookies_filename = username + '_cookies'
+
         self.__pages = {
             "home": getenv("LOWADI_HOME_PAGE"),
             "horses": getenv("LOWADI_HORSELIST_PAGE")
@@ -20,6 +24,11 @@ class Site:
 
     def login(self):
         self.__open_page('home')
+
+        if self.__cookies_exist():
+            self.__load_cookies()
+            self.__driver.refresh()
+            return
 
         self.__driver.click_on_many([
             self.__page_selectors['accept_cookie_btn'],
@@ -33,6 +42,8 @@ class Site:
 
         submit = self.__page_selectors['login_form_submit_btn']
         self.__driver.click_on(submit)
+
+        self.__save_cookies()
 
     def get_horses_links(self):
         if self.__cache.horses_links:
@@ -52,6 +63,18 @@ class Site:
         self.__driver.switch_to.window(main_tab)
 
         return hrefs
+
+    def __load_cookies(self):
+        for cookie in pickle.load(open(self.__cookies_filename, 'rb')):
+            self.__driver.add_cookie(cookie)
+
+    def __save_cookies(self):
+        cookies = self.__driver.get_cookies()
+        pickle.dump(cookies, open(self.__cookies_filename, 'wb'))
+
+    def __cookies_exist(self):
+        path = Path(self.__cookies_filename)
+        return path.is_file()
 
     def __open_page(self, page: str):
         url = self.__pages[page]

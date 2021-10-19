@@ -19,8 +19,5 @@ if __name__ == '__main__':
         password
     )
 
-    try:
-        lowadi.login()
-        lowadi.get_horses_links()
-    except:
-        driver.quit()
+    lowadi.login()
+    lowadi.get_horses_links()
