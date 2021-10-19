@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from os import getenv
 
 from lowadi.Site import Site
-from instantiate_browser import instantiate_driver
+from bootstrap.instantiation import *
 
 if __name__ == '__main__':
     load_dotenv()
