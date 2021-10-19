@@ -1,6 +1,8 @@
 import time
 import os
 
+from utils.sleep_after import sleep_after
+
 
 def login(browser):
     browser.get("https://www.lowadi.com/")
