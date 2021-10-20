@@ -20,4 +20,3 @@ if __name__ == '__main__':
     )
 
     lowadi.login()
-    lowadi.get_horses_links()

@@ -53,11 +53,14 @@ class WrappedChrome(webdriver.Chrome):
 
         return el
 
-    def open_new_tab(self):
+    def open_new_tab(self, url=""):
         old_tab = self.current_window_handle
         self.execute_script("window.open();")
         self.switch_to.window(self.window_handles[1])
         new_tab = self.current_window_handle
+
+        if url:
+            self.get(url)
 
         return old_tab, new_tab
 

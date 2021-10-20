@@ -1,0 +1,18 @@
+{
+  "home": {
+    "url": "https://www.lowadi.com/",
+    "selectors": {
+      "accept_cookie_btn": ".grid-cell.even.last.pr--1",
+      "open_login_form_btn": "#header-login-label",
+      "username_field": "#login",
+      "password_field": "#password",
+      "login_form_submit_btn": "#authentificationSubmit"
+    }
+  },
+  "all_horses": {
+    "url": "https://www.lowadi.com/elevage/chevaux/?elevage=all-horses",
+    "selectors": {
+      "horses": "a.horsename[href]"
+    }
+  }
+}

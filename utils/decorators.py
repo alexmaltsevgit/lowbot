@@ -8,4 +8,5 @@ def sleep_after(sleep_time):
             time.sleep(sleep_time)
 
         return wrapper
+
     return decorator
