@@ -14,5 +14,11 @@
     "selectors": {
       "horses": "a.horsename[href]"
     }
+  },
+  "horse": {
+    "url": false,
+    "selectors": {
+      "owner": "#ownerBoite"
+    }
   }
 }
