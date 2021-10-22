@@ -1,3 +1,3 @@
 class Cache:
     def __init__(self):
-        self.horses_links = []
+        self.horses_ids = []

@@ -3,10 +3,11 @@ import os
 from selenium import webdriver
 from fake_useragent import UserAgent
 
-from browser.WrappedChrome import WrappedChrome
+from lowadi.Site import Site
 
 
-def get_options(user_agent, is_headless=False):
+def get_options(is_headless=False):
+    user_agent = UserAgent()
     options = webdriver.ChromeOptions()
     options.add_argument(f"user-agent={user_agent.chrome}")
     options.add_argument("--disable-blink-features=AutomationControlled")
@@ -18,12 +19,12 @@ def get_options(user_agent, is_headless=False):
     return options
 
 
-def instantiate_driver(is_headless=False):
-    user_agent = UserAgent()
-    options = get_options(user_agent, is_headless)
-    webdriver_path = os.getenv('WEBDRIVER_PATH')
-    driver = WrappedChrome(
-        executable_path=webdriver_path,
+def instantiate_site(is_headless=False):
+    options = get_options(is_headless)
+    driver_path = os.getenv('WEBDRIVER_PATH')
+    driver = Site(
+        homepage="https://www.lowadi.com/",
+        executable_path=driver_path,
         options=options
     )
 

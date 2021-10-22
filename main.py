@@ -1,22 +1,8 @@
-import time
-
 from dotenv import load_dotenv
-from os import getenv
 
-from lowadi.Site import Site
-from bootstrap.instantiation import *
+import bootstrap.instantiation
 
 if __name__ == '__main__':
     load_dotenv()
-
-    username = getenv("LOWADI_USERNAME")
-    password = getenv("LOWADI_PASSWORD")
-
-    driver = instantiate_driver()
-    lowadi = Site(
-        driver,
-        username,
-        password
-    )
-
-    lowadi.login()
+    site = bootstrap.instantiation.instantiate_site()
+    site.init()
