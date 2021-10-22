@@ -4,8 +4,12 @@ from lowadi.Page import Page
 class HorseList(Page):
     url = "https://www.lowadi.com/elevage/chevaux/?elevage=all-horses"
     selectors = {
+        "id": {
+            "filter_dropdown": "horseFilterFiltre"
+        },
         "css": {
-            "horses": "a.horsename[href]"
+            "horses": "a.horsename[href]",
+            "noksk_filter_option": "#horseFilter > option[value=\"nocenter\"]"
         }
     }
 
