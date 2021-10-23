@@ -7,7 +7,8 @@ class Horse(lowadi.Page, lowadi.HasID):
     url: str = "https://www.lowadi.com/elevage/chevaux/cheval?id={id}"
     selectors = {
         "id": {
-            "owner": "#ownerBoite",
+            "owner": "ownerBoite",
+
         },
         "css": {
             "ksk_link": "a[href*=\"centreInscription\"]"
@@ -32,3 +33,6 @@ class Horse(lowadi.Page, lowadi.HasID):
         return not bool(
             self.site.find_element(By.ID, owner_id)
         )
+
+    def is_young(self):
+        pass

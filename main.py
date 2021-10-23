@@ -4,6 +4,6 @@ import bootstrap.instantiation
 
 if __name__ == '__main__':
     load_dotenv()
-    site = bootstrap.instantiation.instantiate_site()
-    site.init()
-    site.proceed_horses()
+    bot = bootstrap.instantiation.instantiate_site()
+    bot.init()
+    bot.proceed_horses()

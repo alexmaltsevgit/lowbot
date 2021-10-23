@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 import utils.helpers
-from lowadi.Page import Page
+from lowadi.page.Page import Page
 
 
 class HorseList(Page):

@@ -1,6 +1,6 @@
 import undetected_chromedriver.v2 as uc
 
-from lowadi.Site import Site
+import lowadi
 
 
 def get_options(is_headless=False):
@@ -16,7 +16,7 @@ def get_options(is_headless=False):
 
 def instantiate_site(is_headless=False):
     options = get_options(is_headless)
-    driver = Site(
+    driver = lowadi.Bot(
         homepage="https://www.lowadi.com/",
         options=options
     )
