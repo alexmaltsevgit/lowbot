@@ -1,6 +1,6 @@
-from lowadi.Page import Page
+import lowadi
 
 
-class Servation(Page):
+class Servation(lowadi.Page, lowadi.HasID):
     url = "https://www.lowadi.com/elevage/chevaux/rechercherMale?jument={id}"
     selectors = {}
