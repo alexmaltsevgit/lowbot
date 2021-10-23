@@ -14,6 +14,10 @@ class Horse(lowadi.Page, lowadi.HasID):
         }
     }
 
+    def __init__(self, site, id):
+        lowadi.Page.__init__(self, site)
+        lowadi.HasID.__init__(self, id)
+
     def proceed(self):
         pass
 

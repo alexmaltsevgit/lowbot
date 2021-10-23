@@ -13,6 +13,10 @@ class KSK(lowadi.Page, lowadi.HasID):
         }
     }
 
+    def __init__(self, site, id):
+        lowadi.Page.__init__(self, site)
+        lowadi.HasID.__init__(self, id)
+
     def sign_up(self):
         ksk_60_days_tab = KSK.selectors['xpath']['ksk_60_days_tab']
         ksk_60_days_tab = self.site.find_element(By.XPATH, ksk_60_days_tab)
