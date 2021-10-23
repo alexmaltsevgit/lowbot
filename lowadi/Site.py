@@ -14,21 +14,20 @@ class Site(WrappedChrome):
         home = lowadi.Home(self)
         self._open_page(home)
         home.login()
-        # self._get_horses_ids()
-        self.cache.horses_ids = ['70211944', '70192313', '70071350', '70071352', '69932418', '69790720', '69831095']
+        self._get_horses_ids()
 
     def proceed_horses(self):
         for id in self.cache.horses_ids:
-            horse = lowadi.Horse(self)
-            self._open_page_in_new_tab(horse, {'id': id})
+            horse = lowadi.Horse(self, id)
+            self._open_page_in_new_tab(horse)
             self._sign_up_to_ksk(id) if horse.needs_ksk() else None
             self._close_page(horse)
 
     def _sign_up_to_ksk(self, id: str):
-        ksk = lowadi.KSK(self)
-        self._open_page_in_new_tab(ksk, {'id': id})
+        ksk = lowadi.KSK(self, id)
+        old_tab = self._open_page_in_new_tab(ksk)
         ksk.sign_up()
-        self._close_page(ksk)
+        self._close_page(ksk, old_tab)
 
     def _get_horses_ids(self):
         horse_list = lowadi.HorseList(self)
@@ -36,8 +35,11 @@ class Site(WrappedChrome):
         self.cache.horses_ids = horse_list.get_ids()
 
     def _open_page_in_new_tab(self, page: lowadi.Page, get_parameters=None):
+        old_tab = self.current_window_handle
         self.open_new_tab()
         self._open_page(page, get_parameters)
+
+        return old_tab
 
     @utils.decorators.sleep_after(1)
     def _open_page(self, page: lowadi.Page, get_parameters=None):
@@ -50,8 +52,8 @@ class Site(WrappedChrome):
         page.window_handler = self.current_window_handle
 
     @utils.decorators.sleep_after(1)
-    def _close_page(self, page: lowadi.Page, page_to_switch_back: lowadi.Page = None):
-        back = page_to_switch_back.window_handler if page_to_switch_back else self.window_handles[0]
+    def _close_page(self, page: lowadi.Page, tab_to_switch_back = None):
+        back = tab_to_switch_back or self.window_handles[0]
         self.switch_to.window(page.window_handler)
         self.close()
         self.switch_to.window(back)
