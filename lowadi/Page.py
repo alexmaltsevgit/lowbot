@@ -4,9 +4,9 @@ from abc import abstractmethod
 
 
 class Page:
-    def __init__(self, site, window_handler=None):
+    def __init__(self, site):
         self.site = site
-        self.window_handler = window_handler
+        self.window_handler = None
 
     @property
     @abstractmethod

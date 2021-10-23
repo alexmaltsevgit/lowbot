@@ -6,3 +6,4 @@ if __name__ == '__main__':
     load_dotenv()
     site = bootstrap.instantiation.instantiate_site()
     site.init()
+    site.proceed_horses()
