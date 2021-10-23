@@ -1,30 +1,29 @@
 from time import sleep
 
-from selenium import webdriver
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from browser.GetAllElBy import GetAllElBy
-from browser.GetElBy import GetElBy
+import undetected_chromedriver.v2 as uc
+
+from utils.decorators import return_default_on_exception
 
 
-class WrappedChrome(webdriver.Chrome):
+class WrappedChrome(uc.Chrome):
     def __init__(self, click_sleep_time=0.5, field_fill_sleep_time=0.5, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.click_sleep_time = click_sleep_time
         self.field_fill_sleep_time = field_fill_sleep_time
 
-    @property
-    def get_el_by(self):
-        get_el_by = GetElBy(self)
-        return get_el_by
+    @return_default_on_exception(None)
+    def find_element(self, *args, **kwargs):
+        return super().find_element(*args, **kwargs)
 
-    @property
-    def get_all_el_by(self):
-        get_all_el_by = GetAllElBy(self)
-        return get_all_el_by
+    @return_default_on_exception(None)
+    def find_elements(self, *args, **kwargs):
+        return super().find_elements(*args, **kwargs)
 
     def click_on(self, element, sleep_after: int = None):
         sleep_after = self.click_sleep_time if sleep_after is None else self.click_sleep_time
@@ -75,12 +74,12 @@ class WrappedChrome(webdriver.Chrome):
         return el
 
     def open_new_tab(self):
-        self.execute_script("window.open();")
-        self.switch_to.window(self.window_handles[1])
+        self.execute_script('window.open("about:blank");')
+        self.switch_to.window(self.window_handles[-1])
 
     def _convert_to_web_element(self, el) -> WebElement:
         if type(el) is str:
-            el = self.find_element_by_css_selector(el)
+            el = self.find_element(By.CSS_SELECTOR, el)
         elif type(el) is WebElement:
             pass
         else:
