@@ -50,3 +50,12 @@ def pass_exception(exception=Exception):
         return wrapper
 
     return decorator
+
+
+def fname(f):
+    def wrapper(*args, **kwargs):
+        print(f.__name__)
+        res = f(*args, *kwargs)
+        return res
+
+    return wrapper
