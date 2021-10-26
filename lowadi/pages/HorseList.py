@@ -21,7 +21,7 @@ class HorseList(Page):
             return self.site.cache.horses_ids
 
         horses_selector = HorseList.selectors['css']['horses']
-        horses = self.site.find_elements(By.CSS_SELECTOR, horses_selector)
+        horses = self.site.find_all_noexcept(By.CSS_SELECTOR, horses_selector)
         hrefs = map(lambda link: link.get_attribute('href'), horses)
         ids = list(map(
             lambda get_parameters: utils.helpers.parse_get_parameters(get_parameters)['id'],

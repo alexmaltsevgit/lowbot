@@ -4,6 +4,9 @@ from abc import abstractmethod
 
 
 class Page:
+    class Meta:
+        opened_by = None
+
     def __init__(self, site):
         self.site = site
         self.window_handler = None
@@ -27,6 +30,3 @@ class Page:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.site.close_page(self, self.meta.opened_by)
-
-    class Meta:
-        opened_by = None
