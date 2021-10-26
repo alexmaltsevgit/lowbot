@@ -1,4 +1,5 @@
 from time import sleep
+from typing import List
 
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
@@ -18,11 +19,11 @@ class WrappedChrome(uc.Chrome):
         self.field_fill_sleep_time = field_fill_sleep_time
 
     @return_default_on_exception(None)
-    def find_element(self, *args, **kwargs):
+    def find_noexcept(self, *args, **kwargs) -> WebElement:
         return super().find_element(*args, **kwargs)
 
     @return_default_on_exception(None)
-    def find_elements(self, *args, **kwargs):
+    def find_all_noexcept(self, *args, **kwargs) -> List[WebElement]:
         return super().find_elements(*args, **kwargs)
 
     def click_on(self, element, sleep_after: int = None):
@@ -79,7 +80,7 @@ class WrappedChrome(uc.Chrome):
 
     def _convert_to_web_element(self, el) -> WebElement:
         if type(el) is str:
-            el = self.find_element(By.CSS_SELECTOR, el)
+            el = self.find_noexcept(By.CSS_SELECTOR, el)
         elif type(el) is WebElement:
             pass
         else:
