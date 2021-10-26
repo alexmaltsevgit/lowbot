@@ -13,17 +13,17 @@ class KSK(lowadi.Page, lowadi.HasID):
         }
     }
 
-    def __init__(self, site, id):
+    def __init__(self, site, id_):
         lowadi.Page.__init__(self, site)
-        lowadi.HasID.__init__(self, id)
+        lowadi.HasID.__init__(self, id_)
 
     def sign_up(self):
         ksk_60_days_tab = KSK.selectors['xpath']['ksk_60_days_tab']
-        ksk_60_days_tab = self.site.find_element(By.XPATH, ksk_60_days_tab)
+        ksk_60_days_tab = self.site.find_noexcept(By.XPATH, ksk_60_days_tab)
         self.site.click_on(ksk_60_days_tab)
 
         ksk_60_days_btn = KSK.selectors['xpath']['ksk_60_days_btn']
-        ksk_60_days_btn = self.site.find_element(By.XPATH, ksk_60_days_btn)
+        ksk_60_days_btn = self.site.find_noexcept(By.XPATH, ksk_60_days_btn)
         self.site.click_on(ksk_60_days_btn)
 
         alert = self.site.switch_to.alert
