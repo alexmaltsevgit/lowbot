@@ -7,16 +7,15 @@ class Bot(lowadi.Site):
         home = lowadi.Home(self)
         self.open_page(home)
         home.login()
-        # self._get_horses_ids()
-        self.cache.horses_ids = ['68885683', '69831095']
+        self._set_horses_ids()
 
     def proceed_horses(self):
         for id_ in self.cache.horses_ids:
             self._proceed_one_horse(id_)
 
+    @pass_exception()
     def _proceed_one_horse(self, id_):
         with lowadi.Horse(self, id_) as horse:
-            horse.init()
             self._proceed_secondary(horse)
             horse.proceed()
 
@@ -33,7 +32,7 @@ class Bot(lowadi.Site):
         with lowadi.Mating(self, id_) as mating:
             mating.mate(race)
 
-    def _get_horses_ids(self):
+    def _set_horses_ids(self):
         horse_list = lowadi.HorseList(self)
         self.open_page(horse_list)
         self.cache.horses_ids = horse_list.get_ids()
