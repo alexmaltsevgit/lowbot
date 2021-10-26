@@ -1,4 +1,5 @@
 import lowadi
+from utils.decorators import pass_exception
 
 
 class Bot(lowadi.Site):
@@ -6,16 +7,31 @@ class Bot(lowadi.Site):
         home = lowadi.Home(self)
         self.open_page(home)
         home.login()
-        self._get_horses_ids()
+        # self._get_horses_ids()
+        self.cache.horses_ids = ['68885683', '69831095']
 
     def proceed_horses(self):
-        for id in self.cache.horses_ids:
-            with lowadi.Horse(self, id) as horse:
-                self._sign_up_to_ksk(id) and self.refresh() if horse.needs_ksk() else None
+        for id_ in self.cache.horses_ids:
+            self._proceed_one_horse(id_)
 
-    def _sign_up_to_ksk(self, id: str):
-        with lowadi.KSK(self, id) as ksk:
+    def _proceed_one_horse(self, id_):
+        with lowadi.Horse(self, id_) as horse:
+            horse.init()
+            self._proceed_secondary(horse)
+            horse.proceed()
+
+    def _proceed_secondary(self, horse: lowadi.Horse):
+        self._sign_up_to_ksk(horse.id_) if horse.needs_ksk() else None
+        self._mate(horse.id_, horse.get_race()) if horse.needs_mating() else None
+        self.refresh()
+
+    def _sign_up_to_ksk(self, id_: str):
+        with lowadi.KSK(self, id_) as ksk:
             ksk.sign_up()
+
+    def _mate(self, id_: str, race: str):
+        with lowadi.Mating(self, id_) as mating:
+            mating.mate(race)
 
     def _get_horses_ids(self):
         horse_list = lowadi.HorseList(self)
